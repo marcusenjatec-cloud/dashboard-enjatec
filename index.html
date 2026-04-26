@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
+<html lang="pt-BR"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard Executivo · Enjatec × RHI Magnesita</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="index_files/chart.umd.min.js"></script>
+<link href="index_files/css2.css" rel="stylesheet">
 <style>
 /* ═══════════════ RESET & TOKENS ═══════════════ */
 :root {
@@ -467,10 +467,10 @@ tr:last-child td{border-bottom:none;}
 <div class="header">
   <div class="brand">
     <svg class="logo-svg" viewBox="0 0 220 52" xmlns="http://www.w3.org/2000/svg" fill="white">
-      <circle cx="26" cy="26" r="23" fill="none" stroke="white" stroke-width="2.5"/>
-      <path d="M14 26 C14 18 20 13 26 13 C32 13 38 18 38 26" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M14 26 Q14 40 26 40 Q34 40 37 34" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="14" y1="26" x2="36" y2="26" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="26" cy="26" r="23" fill="none" stroke="white" stroke-width="2.5"></circle>
+      <path d="M14 26 C14 18 20 13 26 13 C32 13 38 18 38 26" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"></path>
+      <path d="M14 26 Q14 40 26 40 Q34 40 37 34" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"></path>
+      <line x1="14" y1="26" x2="36" y2="26" stroke="white" stroke-width="2.5" stroke-linecap="round"></line>
       <text x="58" y="20" font-family="'Inter',sans-serif" font-weight="700" font-size="20" letter-spacing="1" fill="white">ENJATEC</text>
       <text x="59" y="35" font-family="'DM Sans',sans-serif" font-size="9" letter-spacing="2.5" fill="rgba(255,255,255,0.45)">SERVIÇOS E FABRICAÇÕES</text>
     </svg>
@@ -482,20 +482,20 @@ tr:last-child td{border-bottom:none;}
   </div>
   <div class="hdr-right">
     <div class="live-chip"><div class="live-dot"></div>Dados ativos</div>
-    <div class="date-chip" id="dt"></div>
+    <div class="date-chip" id="dt">dom., 26 de abr. de 2026</div>
     <button class="refresh-btn" id="refresh-btn" onclick="loadData(true)" title="Recarregar dados da planilha">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="23 4 23 10 17 10"></polyline>
         <polyline points="1 20 1 14 7 14"></polyline>
         <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
       </svg>
-      <span id="refresh-lbl">Atualizar</span>
+      <span id="refresh-lbl">Tentar novamente</span>
     </button>
   </div>
 </div>
 
 <!-- Loading overlay -->
-<div class="loading-overlay" id="loading">
+<div class="loading-overlay hidden" id="loading">
   <div class="loading-card">
     <div class="loading-spinner"></div>
     <div class="loading-title">Carregando dados</div>
@@ -504,9 +504,9 @@ tr:last-child td{border-bottom:none;}
 </div>
 
 <!-- Error banner -->
-<div class="error-banner" id="error-banner">
+<div class="error-banner show" id="error-banner">
   <strong>⚠ Não foi possível carregar os dados</strong>
-  <span id="error-msg">Verifique sua conexão e tente novamente.</span>
+  <span id="error-msg">Detalhes: NetworkError when attempting to fetch resource.</span>
   <button onclick="loadData(true)">Tentar novamente</button>
 </div>
 
@@ -653,7 +653,9 @@ tr:last-child td{border-bottom:none;}
 ══════════════════════════════════════════ -->
 <div class="pnl" id="tab-apuracao">
   <div class="sec" id="sec-ap">Em Apuração</div>
-  <div class="alert">⚠️ <div><strong>Atenção — receita potencial não reconhecida:</strong> BMs com valor apurado mas sem Nota Fiscal emitida. Em processo de validação com o cliente RHI ou aguardando aprovação de Pedido de Compra.</div></div>
+  <div class="alert">⚠️ <div><strong>Atenção — receita potencial não reconhecida:</strong>
+ BMs com valor apurado mas sem Nota Fiscal emitida. Em processo de 
+validação com o cliente RHI ou aguardando aprovação de Pedido de Compra.</div></div>
   <div class="kgrid k4" style="margin-bottom:20px">
     <div class="kc cy">
       <div class="kc-icon cy">🔍</div>
@@ -697,7 +699,10 @@ tr:last-child td{border-bottom:none;}
   <div class="igrid">
     <div class="icard">
       <div class="icard-t">📖 Cruzamento das Abas</div>
-      <p style="font-size:12px;color:var(--t2);line-height:1.75">Os valores de <strong style="color:var(--t0)">Faturamento Projetado</strong> são os registros da aba <em>Projeção de Faturamento</em> da planilha — definidos no início de cada mês. O <strong style="color:var(--t0)">Efetivo</strong> representa o quadro de pessoal do período, separado em Direto (chão de fábrica, com repasse de HH pelo cliente) e Indireto (coordenação e supervisão, sem repasse).</p>
+      <p style="font-size:12px;color:var(--t2);line-height:1.75">Os valores de <strong style="color:var(--t0)">Faturamento Projetado</strong> são os registros da aba <em>Projeção de Faturamento</em> da planilha — definidos no início de cada mês. O <strong style="color:var(--t0)">Efetivo</strong>
+ representa o quadro de pessoal do período, separado em Direto (chão de 
+fábrica, com repasse de HH pelo cliente) e Indireto (coordenação e 
+supervisão, sem repasse).</p>
     </div>
     <div class="icard">
       <div class="icard-t">📌 Legenda</div>
@@ -815,13 +820,25 @@ function parseCSV(text){
   return rows.filter(r=>r.length>1 || (r.length===1 && r[0].trim()));
 }
 
-// Converte string monetária BR ("R$ 54.535,43") em number
+// Converte string monetária BR ("R$ 54.535,43" / "R$54.535,43" / "54535,43" / "54.535,43") em number
 function parseMoney(s){
-  if(!s) return 0;
+  if(s==null) return 0;
   if(typeof s==='number') return s;
-  return parseFloat(
-    String(s).replace(/[R$\s\.]/g,'').replace(',','.')
-  ) || 0;
+  let str = String(s).trim();
+  if(!str) return 0;
+  // Remove símbolo de moeda, espaços e NBSP
+  str = str.replace(/R\$|\s|\u00A0/g,'');
+  // Detecta separador decimal: se tem vírgula, ela é o decimal (formato BR)
+  if(str.includes(',')){
+    str = str.replace(/\./g,'').replace(',','.');
+  }
+  // Se só tem ponto e ele aparece UMA vez nos últimos 3 chars, pode ser decimal US
+  // Se tem vários pontos sem vírgula, são separadores de milhar
+  else if((str.match(/\./g)||[]).length>1){
+    str = str.replace(/\./g,'');
+  }
+  const n = parseFloat(str);
+  return isNaN(n) ? 0 : n;
 }
 
 // Converte string numérica BR ("49" ou "1.234") em int
@@ -830,11 +847,15 @@ function parseInt2(s){
   return parseInt(String(s).replace(/\./g,'').replace(/[^\d-]/g,''))||0;
 }
 
-// Normaliza competência ("01/2026" mantém; "1/2026" vira "01/2026")
+// Normaliza competência ("01/2026" mantém; "1/2026" vira "01/2026"; "1/26" vira "01/2026")
 function normComp(s){
   if(!s) return '';
-  const m=String(s).trim().match(/^(\d{1,2})\/(\d{4})$/);
-  return m ? m[1].padStart(2,'0')+'/'+m[2] : String(s).trim();
+  const str = String(s).trim();
+  let m = str.match(/^(\d{1,2})\/(\d{4})$/);
+  if(m) return m[1].padStart(2,'0')+'/'+m[2];
+  m = str.match(/^(\d{1,2})\/(\d{2})$/);
+  if(m) return m[1].padStart(2,'0')+'/20'+m[2];
+  return str;
 }
 
 // ═══════════════ LOADER ═══════════════
@@ -913,44 +934,131 @@ function hideError(){ document.getElementById('error-banner').classList.remove('
 // Estrutura esperada (colunas de A a M, conforme planilha):
 // A=BM | B=REM | C=#PedidoCompra | D=Descrição | E=Tipo | F=Competência
 // G=Responsável RHI | H=#NºNF | I=Valor | J=ValorFaturado | K=DataEmissão | L=Observação
+// Aba "Boletim de Medição" — detecção automática de colunas pelos headers
+// Tolerante a: ordem das colunas, capitalização, acentos, variações de nome
 function parseBMs(csv){
   const rows=parseCSV(csv);
   if(!rows.length) return [];
-  // Detecta header: pula a primeira linha sempre (header textual)
+
+  // Normaliza header pra encontrar índices
+  const headerRaw = rows[0].map(h=>String(h||'').trim());
+  const headerNorm = headerRaw.map(h=>h.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')  // remove acentos
+    .replace(/[^a-z0-9]/g,'')                         // remove tudo que não é alfanum
+  );
+
+  // Função que procura coluna por aliases
+  const findCol = (...aliases) => {
+    for(const a of aliases){
+      const i = headerNorm.indexOf(a);
+      if(i!==-1) return i;
+    }
+    // tentativa parcial: header CONTÉM o alias
+    for(const a of aliases){
+      const i = headerNorm.findIndex(h=>h.includes(a));
+      if(i!==-1) return i;
+    }
+    return -1;
+  };
+
+  // Mapeia cada campo aos seus possíveis nomes na planilha
+  const idx = {
+    bm:   findCol('bm','boletim'),
+    rem:  findCol('rem','rm'),
+    desc: findCol('descricao','descrição','desc'),
+    tipo: findCol('tipo'),
+    comp: findCol('competencia','competência','comp','mescomp','mes'),
+    resp: findCol('responsavel','responsável','responsavelrhi','resp','responsavelrh'),
+    nf:   findCol('nf','numeronf','numnf','numeronotafiscal','notafiscal','nfe'),
+    v:    findCol('valor','valorbm'),
+    vf:   findCol('valorfaturado','vlrfaturado','faturado'),
+    obs:  findCol('observacao','observação','obs')
+  };
+
+  // ── DEBUG: imprime mapeamento no console ──
+  console.group('[parseBMs] Mapeamento de colunas detectado');
+  console.log('Headers brutos:', headerRaw);
+  console.log('Headers normalizados:', headerNorm);
+  console.log('Índices encontrados:', idx);
+  console.log('Total de linhas (incl. header):', rows.length);
+  if(rows.length>1) console.log('Primeira linha de dados:', rows[1]);
+  console.groupEnd();
+
+  // Validação: se não achou colunas críticas, registra erro
+  const missing=[];
+  if(idx.bm<0)   missing.push('BM');
+  if(idx.comp<0) missing.push('Competência');
+  if(idx.v<0)    missing.push('Valor');
+  if(missing.length){
+    console.error('[parseBMs] Colunas obrigatórias não encontradas:', missing);
+    showError('Cabeçalhos não reconhecidos: '+missing.join(', ')+'. Verifique os nomes das colunas na aba Boletim de Medição.');
+  }
+
   const data=rows.slice(1);
   const out=[];
-  data.forEach(r=>{
-    if(!r[0] || !String(r[0]).trim()) return;
-    const bm = parseInt2(r[0]);
-    if(!bm) return;
+  data.forEach((r,rowIdx)=>{
+    const cell = i => i>=0 ? (r[i]||'') : '';
+    const bm = parseInt2(cell(idx.bm));
+    if(!bm) return; // linhas sem BM são ignoradas (vazias ou de totais)
     out.push({
-      bm:    bm,
-      rem:   parseInt2(r[1]) || null,
-      desc:  (r[3]||'').trim(),
-      tipo:  (r[4]||'Serviços').trim(),
-      comp:  normComp(r[5]),
-      resp:  (r[6]||'').trim(),
-      nf:    (r[7]||'').trim(),
-      v:     parseMoney(r[8]),
-      vf:    parseMoney(r[9]),
-      obs:   (r[11]||'').trim()
+      bm:   bm,
+      rem:  parseInt2(cell(idx.rem)) || null,
+      desc: String(cell(idx.desc)).trim(),
+      tipo: String(cell(idx.tipo)).trim() || 'Serviços',
+      comp: normComp(cell(idx.comp)),
+      resp: String(cell(idx.resp)).trim(),
+      nf:   String(cell(idx.nf)).trim(),
+      v:    parseMoney(cell(idx.v)),
+      vf:   parseMoney(cell(idx.vf)),
+      obs:  String(cell(idx.obs)).trim()
     });
   });
+
+  console.log('[parseBMs] BMs parseados:', out.length, '— amostra:', out.slice(0,3));
   return out;
 }
 
-// Aba "Projeção de Faturamento"
-// Estrutura: A=Competência | B=Efetivo Direto | C=Efetivo Indireto | D=Faturamento Projetado
+// Aba "Projeção de Faturamento" — detecção automática de colunas
 function parseProjecao(csv){
   const rows=parseCSV(csv);
+  if(!rows.length) return {proj:{},efet:{}};
+  const headerRaw = rows[0].map(h=>String(h||'').trim());
+  const headerNorm = headerRaw.map(h=>h.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9]/g,''));
+
+  const findCol = (...aliases) => {
+    for(const a of aliases){
+      const i = headerNorm.indexOf(a);
+      if(i!==-1) return i;
+    }
+    for(const a of aliases){
+      const i = headerNorm.findIndex(h=>h.includes(a));
+      if(i!==-1) return i;
+    }
+    return -1;
+  };
+
+  const idx = {
+    comp:  findCol('competencia','competência','comp','mes'),
+    dir:   findCol('efetivodireto','direto','efetivod','dir'),
+    indir: findCol('efetivoindireto','indireto','efetivoi','indir'),
+    proj:  findCol('faturamentoprojetado','projetado','projecao','projeção','faturamento','valorprojetado')
+  };
+
+  console.group('[parseProjecao] Mapeamento detectado');
+  console.log('Headers:', headerRaw);
+  console.log('Índices:', idx);
+  console.groupEnd();
+
   const data=rows.slice(1);
   const proj={}, efet={};
   data.forEach(r=>{
-    if(!r[0]) return;
-    const comp=normComp(r[0]);
+    const cell = i => i>=0 ? (r[i]||'') : '';
+    const comp = normComp(cell(idx.comp));
     if(!comp.match(/^\d{2}\/\d{4}$/)) return;
-    efet[comp]={ direto: parseInt2(r[1]), indireto: parseInt2(r[2]) };
-    proj[comp]= parseMoney(r[3]);
+    efet[comp]={ direto: parseInt2(cell(idx.dir)), indireto: parseInt2(cell(idx.indir)) };
+    proj[comp]= parseMoney(cell(idx.proj));
   });
   return {proj,efet};
 }
@@ -1576,5 +1684,6 @@ setInterval(()=>{
   if(!document.hidden) loadData(true);
 },5*60*1000);
 </script>
-</body>
-</html>
+
+
+</body></html>
