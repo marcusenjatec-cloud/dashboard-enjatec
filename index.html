@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="pt-BR"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<html lang="pt-BR">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard Executivo · Enjatec × RHI Magnesita</title>
-<script src="index_files/chart.umd.min.js"></script>
-<link href="index_files/css2.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════ RESET & TOKENS ═══════════════ */
 :root {
@@ -467,10 +467,10 @@ tr:last-child td{border-bottom:none;}
 <div class="header">
   <div class="brand">
     <svg class="logo-svg" viewBox="0 0 220 52" xmlns="http://www.w3.org/2000/svg" fill="white">
-      <circle cx="26" cy="26" r="23" fill="none" stroke="white" stroke-width="2.5"></circle>
-      <path d="M14 26 C14 18 20 13 26 13 C32 13 38 18 38 26" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"></path>
-      <path d="M14 26 Q14 40 26 40 Q34 40 37 34" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"></path>
-      <line x1="14" y1="26" x2="36" y2="26" stroke="white" stroke-width="2.5" stroke-linecap="round"></line>
+      <circle cx="26" cy="26" r="23" fill="none" stroke="white" stroke-width="2.5"/>
+      <path d="M14 26 C14 18 20 13 26 13 C32 13 38 18 38 26" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M14 26 Q14 40 26 40 Q34 40 37 34" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="14" y1="26" x2="36" y2="26" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
       <text x="58" y="20" font-family="'Inter',sans-serif" font-weight="700" font-size="20" letter-spacing="1" fill="white">ENJATEC</text>
       <text x="59" y="35" font-family="'DM Sans',sans-serif" font-size="9" letter-spacing="2.5" fill="rgba(255,255,255,0.45)">SERVIÇOS E FABRICAÇÕES</text>
     </svg>
@@ -482,20 +482,20 @@ tr:last-child td{border-bottom:none;}
   </div>
   <div class="hdr-right">
     <div class="live-chip"><div class="live-dot"></div>Dados ativos</div>
-    <div class="date-chip" id="dt">dom., 26 de abr. de 2026</div>
+    <div class="date-chip" id="dt"></div>
     <button class="refresh-btn" id="refresh-btn" onclick="loadData(true)" title="Recarregar dados da planilha">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="23 4 23 10 17 10"></polyline>
         <polyline points="1 20 1 14 7 14"></polyline>
         <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
       </svg>
-      <span id="refresh-lbl">Tentar novamente</span>
+      <span id="refresh-lbl">Atualizar</span>
     </button>
   </div>
 </div>
 
 <!-- Loading overlay -->
-<div class="loading-overlay hidden" id="loading">
+<div class="loading-overlay" id="loading">
   <div class="loading-card">
     <div class="loading-spinner"></div>
     <div class="loading-title">Carregando dados</div>
@@ -504,9 +504,9 @@ tr:last-child td{border-bottom:none;}
 </div>
 
 <!-- Error banner -->
-<div class="error-banner show" id="error-banner">
+<div class="error-banner" id="error-banner">
   <strong>⚠ Não foi possível carregar os dados</strong>
-  <span id="error-msg">Detalhes: NetworkError when attempting to fetch resource.</span>
+  <span id="error-msg">Verifique sua conexão e tente novamente.</span>
   <button onclick="loadData(true)">Tentar novamente</button>
 </div>
 
@@ -653,9 +653,7 @@ tr:last-child td{border-bottom:none;}
 ══════════════════════════════════════════ -->
 <div class="pnl" id="tab-apuracao">
   <div class="sec" id="sec-ap">Em Apuração</div>
-  <div class="alert">⚠️ <div><strong>Atenção — receita potencial não reconhecida:</strong>
- BMs com valor apurado mas sem Nota Fiscal emitida. Em processo de 
-validação com o cliente RHI ou aguardando aprovação de Pedido de Compra.</div></div>
+  <div class="alert">⚠️ <div><strong>Atenção — receita potencial não reconhecida:</strong> BMs com valor apurado mas sem Nota Fiscal emitida. Em processo de validação com o cliente RHI ou aguardando aprovação de Pedido de Compra.</div></div>
   <div class="kgrid k4" style="margin-bottom:20px">
     <div class="kc cy">
       <div class="kc-icon cy">🔍</div>
@@ -699,10 +697,7 @@ validação com o cliente RHI ou aguardando aprovação de Pedido de Compra.</di
   <div class="igrid">
     <div class="icard">
       <div class="icard-t">📖 Cruzamento das Abas</div>
-      <p style="font-size:12px;color:var(--t2);line-height:1.75">Os valores de <strong style="color:var(--t0)">Faturamento Projetado</strong> são os registros da aba <em>Projeção de Faturamento</em> da planilha — definidos no início de cada mês. O <strong style="color:var(--t0)">Efetivo</strong>
- representa o quadro de pessoal do período, separado em Direto (chão de 
-fábrica, com repasse de HH pelo cliente) e Indireto (coordenação e 
-supervisão, sem repasse).</p>
+      <p style="font-size:12px;color:var(--t2);line-height:1.75">Os valores de <strong style="color:var(--t0)">Faturamento Projetado</strong> são os registros da aba <em>Projeção de Faturamento</em> da planilha — definidos no início de cada mês. O <strong style="color:var(--t0)">Efetivo</strong> representa o quadro de pessoal do período, separado em Direto (chão de fábrica, com repasse de HH pelo cliente) e Indireto (coordenação e supervisão, sem repasse).</p>
     </div>
     <div class="icard">
       <div class="icard-t">📌 Legenda</div>
@@ -794,6 +789,7 @@ const status=b=>b.nf&&b.vf>0?'fat':b.nf&&b.vf===0?'parc':!b.nf&&b.obs?'ap':'pend
 
 let CF='all'; // current filter
 let CH={}; // charts registry
+let BM_FILTER=null; // filtro de card KPI: null | 'pend' | 'alerta'
 
 document.getElementById('dt').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});
 
@@ -1644,7 +1640,7 @@ function showTab(id,el){
 }
 
 // ─── CARD FILTER (BMs tab) ───
-let BM_FILTER=null; // null | 'pend' | 'alerta'
+// (BM_FILTER já declarado no topo do script)
 
 function setBMFilter(type, el){
   // toggle: se já está ativo, limpa
@@ -1684,6 +1680,5 @@ setInterval(()=>{
   if(!document.hidden) loadData(true);
 },5*60*1000);
 </script>
-
-
-</body></html>
+</body>
+</html>
