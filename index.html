@@ -4,48 +4,82 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard Executivo · Enjatec × RHI Magnesita</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-/* ═══════════════ RESET & TOKENS ═══════════════ */
-:root {
-  /* Paleta principal — petróleo */
-  --p0:#061B22; --p1:#0B3C4D; --p2:#0E4D63; --p3:#155F78; --p4:#1E7A98; --p5:#2A9BBF;
-  /* Acento — laranja Enjatec (mantido nas tabs/buttons; reduzido nos charts) */
-  --a0:#C0390A; --a1:#E8500A; --a2:#FF6830; --a3:#FF8C5A;
 
-  /* Background hierárquico (tom warmer/sóbrio tipo SAP) */
-  --bg:#F4F6F8; --bg2:#EBEFF3; --card:#FFFFFF; --card-alt:#FBFCFD;
-  --brd:#E1E6EA; --brd2:#CCD3DA;
+<!-- Favicon SVG inline — logo Enjatec (e estilizado em azul petróleo) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='29' fill='%230F4C5C'/><path d='M16 32 C16 22 23 16 32 16 C41 16 48 22 48 32' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round'/><path d='M16 32 Q16 48 32 48 Q43 48 47 41' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round'/><line x1='17' y1='32' x2='46' y2='32' stroke='white' stroke-width='3.5' stroke-linecap='round'/></svg>">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════ RESET & TOKENS — PALETA OFICIAL ENJATEC ═══════════════ */
+:root {
+  /* Cores principais — Azul Petróleo (base institucional) */
+  --p-base:#0F4C5C;       /* Azul Petróleo (Base) — #0F4C5C */
+  --p-dark:#0B3F4A;       /* Azul Petróleo Escuro — #0B3F4A */
+  --p-darker:#072B33;     /* Variação ainda mais escura para gradientes */
+  --p-light:#3C8597;      /* Hover Leve — #3C8597 */
+  --p-active:#2F6F7E;     /* Seleção / Ativo — #2F6F7E */
+
+  /* Cor de destaque — Amarelo (ações, foco, chamadas à ação) */
+  --y-base:#F4C430;       /* Amarelo Principal — #F4C430 */
+  --y-hover:#E0B52A;      /* Amarelo Hover — #E0B52A */
+  --y-soft:#FEF6D6;       /* Amarelo suave para fundos */
+
+  /* Compatibilidade: laranja → mantido apenas internamente onde a UI ainda
+     precisa de uma cor "warm" complementar (linhas vivas em gráficos) */
+  --a-warm:#E07A2C;       /* Tom warm complementar (mais sóbrio) */
+
+  /* Backgrounds e superfícies */
+  --bg:#F5F7FA;           /* Background — #F5F7FA */
+  --bg2:#EBEFF3;          /* Variação um pouco mais escura para zebras/contraste */
+  --card:#FFFFFF;         /* Cards / Superfície — #FFFFFF */
+  --card-alt:#FAFBFC;     /* Card alternativo (header de tabela) */
+  --brd:#E5E7EB;          /* Borda / Divisórias — #E5E7EB */
+  --brd2:#D1D5DB;         /* Borda mais marcada */
 
   /* Tipografia em 5 níveis */
-  --t0:#0D1F26; --t1:#3D5560; --t2:#5A7A88; --t3:#8FA8B2; --t4:#B8C8D0;
+  --t0:#0F1F26;           /* Texto principal */
+  --t1:#3D5560;           /* Texto secundário forte */
+  --t2:#6B7884;           /* Texto secundário médio */
+  --t3:#9CA3AF;           /* Texto Secundário — #9CA3AF (do brand book) */
+  --t4:#C8CDD3;           /* Texto desabilitado */
 
-  /* Cores semânticas dessaturadas — paleta categórica */
-  --c-blue:#2D6B8F;     --c-blue-bg:#E5EDF3;
-  --c-teal:#2C8A7B;     --c-teal-bg:#E2F0EE;
-  --c-amber:#B8830E;    --c-amber-bg:#F8EFD6;
-  --c-coral:#B85040;    --c-coral-bg:#F5E0DC;
-  --c-slate:#5C6B7A;    --c-slate-bg:#E8EBEE;
-  --c-violet:#6B5494;   --c-violet-bg:#EBE6F2;
-  --c-olive:#7A8B3E;    --c-olive-bg:#EEF1DC;
+  /* Cores semânticas — STATUS oficiais do brand book */
+  --c-success:#10B981;    /* Sucesso — #10B981 */
+  --c-success-bg:#D1FAE5;
+  --c-warning:#F59E0B;    /* Atenção — #F59E0B */
+  --c-warning-bg:#FEF3C7;
+  --c-error:#EF4444;      /* Erro — #EF4444 */
+  --c-error-bg:#FEE2E2;
+  --c-info:#3B82F6;       /* Informação — #3B82F6 */
+  --c-info-bg:#DBEAFE;
 
-  /* Aliases para retrocompatibilidade */
-  --ok:var(--c-teal); --ok-bg:var(--c-teal-bg);
-  --warn:var(--c-amber); --warn-bg:var(--c-amber-bg);
-  --err:var(--c-coral); --err-bg:var(--c-coral-bg);
-  --info:var(--c-blue); --info-bg:var(--c-blue-bg);
+  /* Categóricas (gráficos secundários) */
+  --c-violet:#7C5BC4;     --c-violet-bg:#EDE7F8;
+  --c-teal:#14A6A0;       --c-teal-bg:#D5F0EE;
+
+  /* Aliases para compatibilidade com código existente */
+  --p0:var(--p-darker); --p1:var(--p-base); --p2:var(--p-dark);
+  --p3:var(--p-active); --p4:var(--p-light); --p5:var(--p-light);
+  --a0:var(--a-warm); --a1:var(--y-base); --a2:var(--y-hover); --a3:var(--y-soft);
+  --ok:var(--c-success); --ok-bg:var(--c-success-bg);
+  --warn:var(--c-warning); --warn-bg:var(--c-warning-bg);
+  --err:var(--c-error); --err-bg:var(--c-error-bg);
+  --info:var(--c-info); --info-bg:var(--c-info-bg);
   --purp:var(--c-violet); --purp-bg:var(--c-violet-bg);
+  --c-blue:var(--c-info); --c-blue-bg:var(--c-info-bg);
+  --c-amber:var(--c-warning); --c-amber-bg:var(--c-warning-bg);
+  --c-coral:var(--c-error); --c-coral-bg:var(--c-error-bg);
 
   /* Geometria */
   --radius:10px; --radius-sm:6px; --radius-lg:14px;
   --space-xs:6px; --space-sm:10px; --space-md:14px; --space-lg:20px; --space-xl:28px;
 
   /* Sombras refinadas */
-  --shadow-xs:0 1px 2px rgba(13,31,38,.04);
-  --shadow:0 1px 3px rgba(13,31,38,.04),0 2px 8px rgba(13,31,38,.04);
-  --shadow-md:0 2px 6px rgba(13,31,38,.05),0 8px 24px rgba(13,31,38,.06);
-  --shadow-lg:0 4px 12px rgba(13,31,38,.06),0 16px 40px rgba(13,31,38,.08);
+  --shadow-xs:0 1px 2px rgba(15,76,92,.04);
+  --shadow:0 1px 3px rgba(15,76,92,.05),0 2px 8px rgba(15,76,92,.04);
+  --shadow-md:0 2px 6px rgba(15,76,92,.06),0 8px 24px rgba(15,76,92,.07);
+  --shadow-lg:0 4px 12px rgba(15,76,92,.08),0 16px 40px rgba(15,76,92,.1);
 
   /* Transições */
   --ease:cubic-bezier(.4,0,.2,1);
@@ -54,7 +88,7 @@
 html{scroll-behavior:smooth;}
 body{
   background:var(--bg);color:var(--t0);
-  font-family:'Inter','DM Sans',sans-serif;
+  font-family:'Montserrat','Montserrat','Inter',sans-serif;
   font-size:13px;line-height:1.5;
   -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
   font-feature-settings:'cv11','ss01','ss03';
@@ -75,7 +109,7 @@ body{
 .vsep{width:1px;height:30px;background:rgba(255,255,255,.16);}
 .brand-meta{}
 .brand-name{
-  font-family:'Inter',sans-serif;font-weight:600;font-size:13px;
+  font-family:'Montserrat','Inter',sans-serif;font-weight:600;font-size:13px;
   letter-spacing:-.1px;color:rgba(255,255,255,.92);
 }
 .brand-sub{
@@ -112,7 +146,7 @@ body{
 }
 .fbtn{
   padding:6px 14px;border:1px solid var(--brd);background:var(--card);
-  color:var(--t1);font-family:'Inter',sans-serif;font-size:12px;font-weight:500;
+  color:var(--t1);font-family:'Montserrat','Inter',sans-serif;font-size:12px;font-weight:500;
   cursor:pointer;border-radius:6px;transition:all .18s var(--ease);
   white-space:nowrap;letter-spacing:-.05px;
   font-feature-settings:'tnum';
@@ -139,7 +173,7 @@ body{
 }
 .tab{
   padding:13px 18px;border:none;background:transparent;
-  color:var(--t2);font-family:'Inter',sans-serif;font-size:13px;font-weight:500;
+  color:var(--t2);font-family:'Montserrat','Inter',sans-serif;font-size:13px;font-weight:500;
   cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;
   transition:all .2s var(--ease);display:flex;align-items:center;gap:8px;letter-spacing:-.05px;
   position:relative;
@@ -160,7 +194,7 @@ body{
 
 /* ═══════════════ SECTION TITLE ═══════════════ */
 .sec{
-  font-family:'Inter',sans-serif;font-size:11px;font-weight:600;
+  font-family:'Montserrat','Inter',sans-serif;font-size:11px;font-weight:600;
   text-transform:uppercase;letter-spacing:1.5px;color:var(--p3);
   margin-bottom:18px;display:flex;align-items:center;gap:14px;
 }
@@ -217,7 +251,7 @@ body{
   text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;
 }
 .kval{
-  font-family:'Inter',sans-serif;font-size:28px;font-weight:600;
+  font-family:'Montserrat','Inter',sans-serif;font-size:28px;font-weight:600;
   line-height:1;margin-bottom:7px;letter-spacing:-1px;
   font-feature-settings:'tnum';
   color:var(--t0);
@@ -254,7 +288,7 @@ body{
 .cc:hover{box-shadow:var(--shadow-md);}
 .cc-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;gap:12px;}
 .cc-ttl{
-  font-family:'Inter',sans-serif;font-size:13px;font-weight:600;
+  font-family:'Montserrat','Inter',sans-serif;font-size:13px;font-weight:600;
   color:var(--t0);letter-spacing:-.1px;line-height:1.3;
 }
 .cc-sub{font-size:11px;color:var(--t2);margin-top:3px;font-weight:400;}
@@ -280,7 +314,7 @@ table{width:100%;border-collapse:collapse;font-size:12.5px;}
 thead tr{background:var(--card-alt);border-bottom:2px solid var(--brd);}
 th{
   padding:13px 16px;text-align:left;
-  font-family:'Inter',sans-serif;font-weight:600;font-size:10.5px;
+  font-family:'Montserrat','Inter',sans-serif;font-weight:600;font-size:10.5px;
   text-transform:uppercase;letter-spacing:.8px;
   color:var(--t2);white-space:nowrap;
   position:sticky;top:0;background:var(--card-alt);z-index:1;
@@ -301,7 +335,7 @@ tr:last-child td{border-bottom:none;}
   display:inline-flex;align-items:center;gap:5px;
   padding:3px 10px;border-radius:5px;
   font-size:10.5px;font-weight:600;letter-spacing:.2px;
-  font-family:'Inter',sans-serif;
+  font-family:'Montserrat','Inter',sans-serif;
 }
 .chip::before{content:'';width:5px;height:5px;border-radius:50%;}
 .cg{background:var(--c-teal-bg);color:var(--c-teal);}     .cg::before{background:var(--c-teal);}
@@ -310,7 +344,7 @@ tr:last-child td{border-bottom:none;}
 .cb2{background:var(--c-blue-bg);color:var(--c-blue);}     .cb2::before{background:var(--c-blue);}
 .cr2{background:var(--c-coral-bg);color:var(--c-coral);}   .cr2::before{background:var(--c-coral);}
 
-.mn{font-family:'Inter',sans-serif;font-size:12.5px;font-weight:600;font-feature-settings:'tnum';}
+.mn{font-family:'Montserrat','Inter',sans-serif;font-size:12.5px;font-weight:600;font-feature-settings:'tnum';}
 .mn.cg{background:transparent;color:var(--c-teal);}
 .mn.cy{background:transparent;color:var(--c-amber);}
 .mn.ca{background:transparent;color:var(--a1);}
@@ -333,7 +367,7 @@ tr:last-child td{border-bottom:none;}
 .rank-pos{
   width:26px;height:26px;border-radius:7px;
   display:flex;align-items:center;justify-content:center;
-  font-family:'Inter',sans-serif;font-size:11.5px;font-weight:600;
+  font-family:'Montserrat','Inter',sans-serif;font-size:11.5px;font-weight:600;
   color:var(--t2);background:var(--bg2);flex-shrink:0;
   border:1px solid var(--brd);transition:all .2s var(--ease);
 }
@@ -346,7 +380,7 @@ tr:last-child td{border-bottom:none;}
 .rank-bar{height:5px;background:var(--bg2);border-radius:3px;overflow:hidden;}
 .rank-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--p3),var(--p4));transition:width .8s var(--ease);}
 .rank-val{
-  font-family:'Inter',sans-serif;font-size:12.5px;font-weight:600;
+  font-family:'Montserrat','Inter',sans-serif;font-size:12.5px;font-weight:600;
   color:var(--p2);flex-shrink:0;min-width:74px;text-align:right;
   font-feature-settings:'tnum';
 }
@@ -358,13 +392,13 @@ tr:last-child td{border-bottom:none;}
   border-radius:var(--radius);padding:18px 22px;box-shadow:var(--shadow);
 }
 .icard-t{
-  font-family:'Inter',sans-serif;font-size:11px;font-weight:600;
+  font-family:'Montserrat','Inter',sans-serif;font-size:11px;font-weight:600;
   text-transform:uppercase;letter-spacing:.8px;color:var(--p3);margin-bottom:12px;
 }
 
 /* ═══════════════ PROJ TABLE HIGHLIGHT ═══════════════ */
 .row-active td{background:#F1F8FB!important;}
-.row-total td{background:var(--card-alt)!important;font-family:'Inter',sans-serif;font-weight:600;}
+.row-total td{background:var(--card-alt)!important;font-family:'Montserrat','Inter',sans-serif;font-weight:600;}
 
 /* ═══════════════ CARD FILTER (clicável) ═══════════════ */
 .kc.clickable{cursor:pointer;user-select:none;position:relative;}
@@ -409,7 +443,7 @@ tr:last-child td{border-bottom:none;}
   display:flex;align-items:center;gap:7px;
   background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
   border-radius:6px;padding:5px 11px;cursor:pointer;
-  color:rgba(255,255,255,.85);font-family:'Inter',sans-serif;
+  color:rgba(255,255,255,.85);font-family:'Montserrat','Inter',sans-serif;
   font-size:11.5px;font-weight:500;letter-spacing:-.05px;
   transition:all .2s var(--ease);
 }
@@ -439,7 +473,7 @@ tr:last-child td{border-bottom:none;}
   border-radius:50%;animation:spin .9s linear infinite;
 }
 .loading-title{
-  font-family:'Inter',sans-serif;font-size:14px;font-weight:600;
+  font-family:'Montserrat','Inter',sans-serif;font-size:14px;font-weight:600;
   color:var(--t0);margin-bottom:4px;
 }
 .loading-sub{font-size:12px;color:var(--t2);}
@@ -471,7 +505,7 @@ tr:last-child td{border-bottom:none;}
       <path d="M14 26 C14 18 20 13 26 13 C32 13 38 18 38 26" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
       <path d="M14 26 Q14 40 26 40 Q34 40 37 34" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
       <line x1="14" y1="26" x2="36" y2="26" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-      <text x="58" y="20" font-family="'Inter',sans-serif" font-weight="700" font-size="20" letter-spacing="1" fill="white">ENJATEC</text>
+      <text x="58" y="20" font-family="'Montserrat','Inter',sans-serif" font-weight="700" font-size="20" letter-spacing="1" fill="white">ENJATEC</text>
       <text x="59" y="35" font-family="'DM Sans',sans-serif" font-size="9" letter-spacing="2.5" fill="rgba(255,255,255,0.45)">SERVIÇOS E FABRICAÇÕES</text>
     </svg>
     <div class="vsep"></div>
@@ -1220,9 +1254,9 @@ function buildBMTable(D){
     const tr=document.createElement('tr');
     if(highlight) tr.style.cssText='background:linear-gradient(90deg,#FFF8F5,#FFFFFF)!important;border-left:3px solid var(--a1);';
     tr.innerHTML=`
-      <td><strong style="color:var(--p2);font-family:'Inter',sans-serif">${b.bm}</strong></td>
+      <td><strong style="color:var(--p2);font-family:'Montserrat','Inter',sans-serif">${b.bm}</strong></td>
       <td style="color:var(--t3)">${b.rem??'—'}</td>
-      <td><span style="color:var(--a1);font-weight:600;font-family:'Inter',sans-serif">${b.comp}</span></td>
+      <td><span style="color:var(--a1);font-weight:600;font-family:'Montserrat','Inter',sans-serif">${b.comp}</span></td>
       <td style="max-width:250px;white-space:normal;font-size:11.5px;color:var(--t1)">${b.desc}</td>
       <td style="color:var(--t2)">${b.tipo}</td>
       <td style="white-space:nowrap;font-weight:500">${b.resp}</td>
@@ -1242,9 +1276,9 @@ function buildAPTable(apB){
   apB.forEach(b=>{
     const tr=document.createElement('tr');
     tr.innerHTML=`
-      <td><strong style="color:var(--p2);font-family:'Inter',sans-serif">${b.bm}</strong></td>
+      <td><strong style="color:var(--p2);font-family:'Montserrat','Inter',sans-serif">${b.bm}</strong></td>
       <td style="color:var(--t3)">${b.rem??'—'}</td>
-      <td><span style="color:var(--a1);font-weight:600;font-family:'Inter',sans-serif">${b.comp}</span></td>
+      <td><span style="color:var(--a1);font-weight:600;font-family:'Montserrat','Inter',sans-serif">${b.comp}</span></td>
       <td style="max-width:300px;white-space:normal;font-size:11.5px;color:var(--t1)">${b.desc}</td>
       <td style="color:var(--t2)">${b.tipo}</td>
       <td style="white-space:nowrap;font-weight:500">${b.resp}</td>
@@ -1273,31 +1307,31 @@ function buildEfetivoKPIs(){
         <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
           <div>
             <div class="klbl">${lbl}</div>
-            <div style="font-family:'Inter',sans-serif;font-size:11px;color:var(--t2);margin-top:2px">${fmt(proj)} projetado</div>
+            <div style="font-family:'Montserrat','Inter',sans-serif;font-size:11px;color:var(--t2);margin-top:2px">${fmt(proj)} projetado</div>
           </div>
           <div style="background:var(--bg2);border-radius:6px;padding:4px 8px;text-align:center">
-            <div style="font-family:'Inter',sans-serif;font-size:16px;font-weight:700;color:${pct>=80?'var(--ok)':pct>=50?'var(--warn)':'var(--err)'}">${pct}%</div>
+            <div style="font-family:'Montserrat','Inter',sans-serif;font-size:16px;font-weight:700;color:${pct>=80?'var(--ok)':pct>=50?'var(--warn)':'var(--err)'}">${pct}%</div>
             <div style="font-size:9px;color:var(--t3);letter-spacing:.5px">atingido</div>
           </div>
         </div>
         <div style="display:flex;gap:8px;margin-bottom:10px">
           <div style="flex:1;background:var(--ok-bg);border-radius:6px;padding:8px 10px;text-align:center">
-            <div style="font-family:'Inter',sans-serif;font-size:22px;font-weight:700;color:var(--ok)">${ef.direto}</div>
+            <div style="font-family:'Montserrat','Inter',sans-serif;font-size:22px;font-weight:700;color:var(--ok)">${ef.direto}</div>
             <div style="font-size:9.5px;color:var(--ok);font-weight:600;margin-top:1px">Direto</div>
             <div style="font-size:9px;color:var(--t3)">recebe HH</div>
           </div>
           <div style="flex:1;background:var(--purp-bg);border-radius:6px;padding:8px 10px;text-align:center">
-            <div style="font-family:'Inter',sans-serif;font-size:22px;font-weight:700;color:var(--purp)">${ef.indireto}</div>
+            <div style="font-family:'Montserrat','Inter',sans-serif;font-size:22px;font-weight:700;color:var(--purp)">${ef.indireto}</div>
             <div style="font-size:9.5px;color:var(--purp);font-weight:600;margin-top:1px">Indireto</div>
             <div style="font-size:9px;color:var(--t3)">coord./sup.</div>
           </div>
           <div style="flex:1;background:var(--bg2);border-radius:6px;padding:8px 10px;text-align:center">
-            <div style="font-family:'Inter',sans-serif;font-size:22px;font-weight:700;color:var(--p2)">${total}</div>
+            <div style="font-family:'Montserrat','Inter',sans-serif;font-size:22px;font-weight:700;color:var(--p2)">${total}</div>
             <div style="font-size:9.5px;color:var(--p2);font-weight:600;margin-top:1px">Total</div>
             <div style="font-size:9px;color:var(--t3)">pessoas</div>
           </div>
         </div>
-        <div style="font-size:10.5px;color:var(--t2)">Fat./pessoa direta: <strong style="color:var(--p2);font-family:'Inter',sans-serif">${fmtK(fatPessoa)}</strong></div>
+        <div style="font-size:10.5px;color:var(--t2)">Fat./pessoa direta: <strong style="color:var(--p2);font-family:'Montserrat','Inter',sans-serif">${fmtK(fatPessoa)}</strong></div>
       </div>`;
   });
 }
@@ -1335,16 +1369,16 @@ function buildProjTable(){
     const tr=document.createElement('tr');
     if(isAct) tr.className='row-active';
     tr.innerHTML=`
-      <td style="color:var(--p2);font-weight:700;font-family:'Inter',sans-serif;font-size:13.5px">${c}${isAct?' ◀':''}</td>
+      <td style="color:var(--p2);font-weight:700;font-family:'Montserrat','Inter',sans-serif;font-size:13.5px">${c}${isAct?' ◀':''}</td>
       <td class="rt mn ct" style="background:none!important">${fmt(proj)}</td>
-      <td class="rt" style="color:${real>0?'var(--ok)':'var(--t3)'}; font-family:'Inter',sans-serif;font-weight:600">${real>0?fmt(real):'—'}</td>
-      <td class="rt" style="color:${apur>0?'var(--warn)':'var(--t3)'};font-family:'Inter',sans-serif;font-weight:600">${apur>0?fmt(apur):'—'}</td>
-      <td class="rt" style="color:${dlt>=0?'var(--ok)':'var(--err)'};font-family:'Inter',sans-serif;font-weight:600">${real>0?(dlt>=0?'▲ ':'▼ ')+fmt(Math.abs(dlt)):'—'}</td>
-      <td class="ctr"><span style="font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:${pctColor}">${real>0?pct+'%':'—'}</span></td>
-      <td class="ctr"><span style="background:var(--ok-bg);color:var(--ok);font-weight:700;font-family:'Inter',sans-serif;padding:3px 10px;border-radius:12px;font-size:12px">${ef.direto}</span></td>
-      <td class="ctr"><span style="background:var(--purp-bg);color:var(--purp);font-weight:700;font-family:'Inter',sans-serif;padding:3px 10px;border-radius:12px;font-size:12px">${ef.indireto}</span></td>
-      <td class="ctr"><strong style="color:var(--p2);font-family:'Inter',sans-serif">${total}</strong></td>
-      <td class="rt" style="color:var(--p2);font-family:'Inter',sans-serif;font-weight:600">${real>0?fmtK(fatPessoa):'—'}</td>
+      <td class="rt" style="color:${real>0?'var(--ok)':'var(--t3)'}; font-family:'Montserrat','Inter',sans-serif;font-weight:600">${real>0?fmt(real):'—'}</td>
+      <td class="rt" style="color:${apur>0?'var(--warn)':'var(--t3)'};font-family:'Montserrat','Inter',sans-serif;font-weight:600">${apur>0?fmt(apur):'—'}</td>
+      <td class="rt" style="color:${dlt>=0?'var(--ok)':'var(--err)'};font-family:'Montserrat','Inter',sans-serif;font-weight:600">${real>0?(dlt>=0?'▲ ':'▼ ')+fmt(Math.abs(dlt)):'—'}</td>
+      <td class="ctr"><span style="font-family:'Montserrat','Inter',sans-serif;font-weight:700;font-size:13px;color:${pctColor}">${real>0?pct+'%':'—'}</span></td>
+      <td class="ctr"><span style="background:var(--ok-bg);color:var(--ok);font-weight:700;font-family:'Montserrat','Inter',sans-serif;padding:3px 10px;border-radius:12px;font-size:12px">${ef.direto}</span></td>
+      <td class="ctr"><span style="background:var(--purp-bg);color:var(--purp);font-weight:700;font-family:'Montserrat','Inter',sans-serif;padding:3px 10px;border-radius:12px;font-size:12px">${ef.indireto}</span></td>
+      <td class="ctr"><strong style="color:var(--p2);font-family:'Montserrat','Inter',sans-serif">${total}</strong></td>
+      <td class="rt" style="color:var(--p2);font-family:'Montserrat','Inter',sans-serif;font-weight:600">${real>0?fmtK(fatPessoa):'—'}</td>
       <td class="ctr"><span class="${chip}">${lbl2}</span></td>`;
     tb.appendChild(tr);
   });
@@ -1364,11 +1398,11 @@ function buildProjTable(){
       <td class="rt" style="color:var(--ok)">${fmt(totReal)}</td>
       <td class="rt" style="color:var(--warn)">${totAp>0?fmt(totAp):'—'}</td>
       <td class="rt" style="color:${tDlt>=0?'var(--ok)':'var(--err)'}">${totReal>0?(tDlt>=0?'▲ ':'▼ ')+fmt(Math.abs(tDlt)):'—'}</td>
-      <td class="ctr" style="color:${tPct>=80?'var(--ok)':tPct>=50?'var(--warn)':'var(--err)'};font-family:'Inter',sans-serif;font-weight:700">${totReal>0?tPct+'%':'—'}</td>
-      <td class="ctr" style="color:var(--ok);font-family:'Inter',sans-serif;font-weight:700">${totDir}</td>
-      <td class="ctr" style="color:var(--purp);font-family:'Inter',sans-serif;font-weight:700">${totInd}</td>
-      <td class="ctr" style="color:var(--p2);font-family:'Inter',sans-serif;font-weight:700">${totPessoas}</td>
-      <td class="rt" style="color:var(--p2);font-family:'Inter',sans-serif">${totReal>0?fmtK(avgFatPessoa):'—'}</td>
+      <td class="ctr" style="color:${tPct>=80?'var(--ok)':tPct>=50?'var(--warn)':'var(--err)'};font-family:'Montserrat','Inter',sans-serif;font-weight:700">${totReal>0?tPct+'%':'—'}</td>
+      <td class="ctr" style="color:var(--ok);font-family:'Montserrat','Inter',sans-serif;font-weight:700">${totDir}</td>
+      <td class="ctr" style="color:var(--purp);font-family:'Montserrat','Inter',sans-serif;font-weight:700">${totInd}</td>
+      <td class="ctr" style="color:var(--p2);font-family:'Montserrat','Inter',sans-serif;font-weight:700">${totPessoas}</td>
+      <td class="rt" style="color:var(--p2);font-family:'Montserrat','Inter',sans-serif">${totReal>0?fmtK(avgFatPessoa):'—'}</td>
       <td></td>`;
     tb.appendChild(tr);
   }
@@ -1413,18 +1447,37 @@ function buildRespTable(D){
 
 // ─── CHARTS ───
 const C={
-  // Petróleo
-  p1:'#0B3C4D',p2:'#0E4D63',p3:'#155F78',p4:'#1E7A98',p5:'#2A9BBF',
-  // Acento (uso parcimonioso)
-  or:'#E8500A',or2:'#FF8C5A',
-  // Paleta categórica sóbria
-  cBlue:'#2D6B8F', cTeal:'#2C8A7B', cAmber:'#B8830E',
-  cCoral:'#B85040', cSlate:'#5C6B7A', cViolet:'#6B5494',
-  // Aliases
-  ok:'#2C8A7B', wn:'#B8830E', pu:'#6B5494', cr:'#B85040',
-  // Texto
-  t1:'#3D5560',t2:'#5A7A88',t3:'#8FA8B2',
-  bg:'#EBEFF3',brd:'#E1E6EA',
+  // Azul Petróleo (cores principais — 70% do uso)
+  p1:'#0F4C5C',         // Base
+  p2:'#0B3F4A',         // Escuro
+  p3:'#2F6F7E',         // Seleção / Ativo
+  p4:'#3C8597',         // Hover Leve
+  p5:'#5BA0B2',         // Variação clara
+
+  // Amarelo (destaque — 10% do uso, ações principais)
+  yl:'#F4C430',         // Amarelo Principal
+  yl2:'#E0B52A',        // Amarelo Hover
+
+  // Tom warm complementar (linhas vivas em gráficos para contraste)
+  or:'#E07A2C', or2:'#F4A261',
+
+  // Status (oficiais do brand book)
+  ok:'#10B981',         // Sucesso
+  wn:'#F59E0B',         // Atenção
+  cr:'#EF4444',         // Erro
+  info:'#3B82F6',       // Informação
+
+  // Categóricas adicionais (gráficos com 4+ séries)
+  pu:'#7C5BC4',         // Violeta
+  tl:'#14A6A0',         // Teal
+
+  // Aliases legados (não remover — usados por outras partes do código)
+  cBlue:'#3B82F6', cTeal:'#10B981', cAmber:'#F59E0B',
+  cCoral:'#EF4444', cSlate:'#6B7884', cViolet:'#7C5BC4',
+
+  // Texto e neutros
+  t1:'#3D5560', t2:'#6B7884', t3:'#9CA3AF',
+  bg:'#EBEFF3', brd:'#E5E7EB',
 };
 
 // Plugin central — texto no meio do donut
@@ -1482,14 +1535,14 @@ function buildCharts(D, isAll, respArr){
     labels:CLBL,
     datasets:[
       {label:'Faturado (NF)',data:evolFat,
-        borderColor:C.or,backgroundColor:'rgba(232,80,10,.07)',
+        borderColor:C.ok,backgroundColor:'rgba(16,185,129,.08)',
         borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#fff',
-        pointBorderColor:C.or,pointBorderWidth:2,
+        pointBorderColor:C.ok,pointBorderWidth:2,
         pointHoverRadius:7,fill:true,tension:.35},
       {label:'Apurado (BMs)',data:evolApur,
-        borderColor:C.p4,backgroundColor:'transparent',
+        borderColor:C.p1,backgroundColor:'transparent',
         borderWidth:2,pointRadius:4,pointBackgroundColor:'#fff',
-        pointBorderColor:C.p4,pointBorderWidth:2,
+        pointBorderColor:C.p1,pointBorderWidth:2,
         pointHoverRadius:6,fill:false,tension:.35,borderDash:[5,4]}
     ]
   },options:{...BASE,plugins:{...BASE.plugins,legend:{...LGD,position:'top',align:'end'}},scales:{x:xA,y:yA(fmtK)}}});
@@ -1510,7 +1563,7 @@ function buildCharts(D, isAll, respArr){
   CH.status=new Chart('ch-status',{type:'doughnut',data:{
     labels:['Faturado','Pendente s/ NF','Parcial'],
     datasets:[{data:[fatN,pendN,parcN],
-      backgroundColor:[C.cTeal,C.cAmber,C.cViolet],
+      backgroundColor:[C.ok,C.wn,C.p4],   // verde sucesso, amarelo atenção, azul claro
       borderColor:'#fff',borderWidth:3,
       hoverBorderWidth:4,hoverOffset:8,
       spacing:2}]
@@ -1518,7 +1571,7 @@ function buildCharts(D, isAll, respArr){
     plugins:{
       ...BASE.plugins,
       legend:{...LGD,position:'bottom'},
-      centerText:{title:totN.toString(),subtitle:'BMs no período',color:'#0D1F26',subColor:'#5A7A88'},
+      centerText:{title:totN.toString(),subtitle:'BMs no período',color:'#0F1F26',subColor:'#6B7884'},
       tooltip:{...BASE.plugins.tooltip,callbacks:{
         label:(ctx)=>`${ctx.label}: ${ctx.parsed} BM${ctx.parsed!==1?'s':''} (${(ctx.parsed/totN*100).toFixed(1)}%)`
       }}
@@ -1532,9 +1585,9 @@ function buildCharts(D, isAll, respArr){
     labels:cl,
     datasets:[
       {label:'Apurado',data:cv.map(c=>D.filter(b=>b.comp===c).reduce((s,b)=>s+b.v,0)),
-        backgroundColor:C.p3,borderColor:C.p3,borderWidth:0,borderRadius:4,borderSkipped:false,barPercentage:.7,categoryPercentage:.65},
+        backgroundColor:C.p1,borderColor:C.p1,borderWidth:0,borderRadius:4,borderSkipped:false,barPercentage:.7,categoryPercentage:.65},
       {label:'Faturado',data:cv.map(c=>D.filter(b=>b.comp===c).reduce((s,b)=>s+b.vf,0)),
-        backgroundColor:C.or,borderColor:C.or,borderWidth:0,borderRadius:4,borderSkipped:false,barPercentage:.7,categoryPercentage:.65}
+        backgroundColor:C.ok,borderColor:C.ok,borderWidth:0,borderRadius:4,borderSkipped:false,barPercentage:.7,categoryPercentage:.65}
     ]
   },options:{...BASE,plugins:{...BASE.plugins,legend:{...LGD,position:'top',align:'end'}},scales:{x:xA,y:yA(fmtK)}}});
 
@@ -1545,7 +1598,7 @@ function buildCharts(D, isAll, respArr){
   CH.tipo=new Chart('ch-tipo',{type:'doughnut',data:{
     labels:Object.keys(tp),
     datasets:[{data:tpVals,
-      backgroundColor:[C.p3,C.or,C.cAmber],
+      backgroundColor:[C.p1,C.yl,C.p4],   // azul base, amarelo destaque, azul claro
       borderColor:'#fff',borderWidth:3,
       hoverBorderWidth:4,hoverOffset:6,
       spacing:2}]
@@ -1553,7 +1606,7 @@ function buildCharts(D, isAll, respArr){
     plugins:{
       ...BASE.plugins,
       legend:{...LGD,position:'bottom'},
-      centerText:{title:fmtK(tpTotal),subtitle:'Valor total',color:'#0D1F26',subColor:'#5A7A88'},
+      centerText:{title:fmtK(tpTotal),subtitle:'Valor total',color:'#0F1F26',subColor:'#6B7884'},
       tooltip:{...BASE.plugins.tooltip,callbacks:{
         label:(ctx)=>`${ctx.label}: ${fmt(ctx.parsed)} (${(ctx.parsed/tpTotal*100).toFixed(1)}%)`
       }}
@@ -1563,10 +1616,12 @@ function buildCharts(D, isAll, respArr){
   // ── CH-QTD ──
   if(isAll){
     document.getElementById('qtd-ttl').textContent='BMs por Competência';
+    // Destaca o último mês (corrente) com amarelo
+    const lastComp = COMPS[COMPS.length-1];
     CH.qtd=new Chart('ch-qtd',{type:'bar',data:{
       labels:CLBL,
       datasets:[{label:'Qtd. BMs',data:COMPS.map(c=>ALL.filter(b=>b.comp===c).length),
-        backgroundColor:COMPS.map(c=>c==='04/2026'?C.or:C.p3),
+        backgroundColor:COMPS.map(c=>c===lastComp?C.yl:C.p1),
         borderWidth:0,borderRadius:5,borderSkipped:false,barPercentage:.55,categoryPercentage:.7}]
     },options:{...BASE,plugins:{...BASE.plugins,legend:{display:false}},scales:{x:xA,y:yA(v=>v)}}});
   } else {
@@ -1575,7 +1630,7 @@ function buildCharts(D, isAll, respArr){
     CH.qtd=new Chart('ch-qtd',{type:'bar',data:{
       labels:Object.keys(tq),
       datasets:[{label:'Qtd.',data:Object.values(tq),
-        backgroundColor:[C.p3,C.or,C.cAmber],
+        backgroundColor:[C.p1,C.yl,C.p4],
         borderWidth:0,borderRadius:5,borderSkipped:false,barPercentage:.55,categoryPercentage:.7}]
     },options:{...BASE,plugins:{...BASE.plugins,legend:{display:false}},scales:{x:xA,y:yA(v=>v)}}});
   }
@@ -1586,18 +1641,18 @@ function buildCharts(D, isAll, respArr){
       labels:CLBL,
       datasets:[
         {type:'bar',label:'Projeção',data:COMPS.map(c=>PROJ_VAL[c]),
-          backgroundColor:C.p3+'33',borderColor:C.p3,borderWidth:1.5,borderRadius:4,borderSkipped:false,yAxisID:'y',barPercentage:.7,categoryPercentage:.55},
+          backgroundColor:C.p4+'33',borderColor:C.p4,borderWidth:1.5,borderRadius:4,borderSkipped:false,yAxisID:'y',barPercentage:.7,categoryPercentage:.55},
         {type:'bar',label:'Realizado (NF)',data:COMPS.map(c=>ALL.filter(b=>b.comp===c).reduce((s,b)=>s+b.vf,0)),
-          backgroundColor:C.or,borderColor:C.or,borderWidth:0,borderRadius:4,borderSkipped:false,yAxisID:'y',barPercentage:.7,categoryPercentage:.55},
+          backgroundColor:C.ok,borderColor:C.ok,borderWidth:0,borderRadius:4,borderSkipped:false,yAxisID:'y',barPercentage:.7,categoryPercentage:.55},
         {type:'bar',label:'Em Apuração',data:COMPS.map(c=>ALL.filter(b=>b.comp===c&&!b.nf).reduce((s,b)=>s+b.v,0)),
-          backgroundColor:C.cAmber,borderColor:C.cAmber,borderWidth:0,borderRadius:4,borderSkipped:false,yAxisID:'y',barPercentage:.7,categoryPercentage:.55},
+          backgroundColor:C.wn,borderColor:C.wn,borderWidth:0,borderRadius:4,borderSkipped:false,yAxisID:'y',barPercentage:.7,categoryPercentage:.55},
         {type:'line',label:'Efetivo Direto',data:COMPS.map(c=>EFETIVO[c].direto),
-          borderColor:C.cTeal,backgroundColor:'rgba(44,138,123,.08)',borderWidth:2.5,
-          pointRadius:5,pointBackgroundColor:'#fff',pointBorderColor:C.cTeal,pointBorderWidth:2,
+          borderColor:C.p1,backgroundColor:'rgba(15,76,92,.06)',borderWidth:2.5,
+          pointRadius:5,pointBackgroundColor:'#fff',pointBorderColor:C.p1,pointBorderWidth:2,
           pointHoverRadius:7,fill:false,tension:.3,yAxisID:'y2'},
         {type:'line',label:'Efetivo Indireto',data:COMPS.map(c=>EFETIVO[c].indireto),
-          borderColor:C.cViolet,backgroundColor:'transparent',borderWidth:2,borderDash:[5,4],
-          pointRadius:4,pointBackgroundColor:'#fff',pointBorderColor:C.cViolet,pointBorderWidth:2,
+          borderColor:C.pu,backgroundColor:'transparent',borderWidth:2,borderDash:[5,4],
+          pointRadius:4,pointBackgroundColor:'#fff',pointBorderColor:C.pu,pointBorderWidth:2,
           pointHoverRadius:6,fill:false,tension:.3,yAxisID:'y2'}
       ]
     },
@@ -1621,8 +1676,8 @@ function buildCharts(D, isAll, respArr){
   CH.resp=new Chart('ch-resp',{type:'bar',data:{
     labels:top8.map(r=>r.n.split(' ')[0]),
     datasets:[
-      {label:'Apurado',data:top8.map(r=>r.t),backgroundColor:C.p3,borderWidth:0,borderRadius:4,barPercentage:.7,categoryPercentage:.7},
-      {label:'Faturado',data:top8.map(r=>r.f),backgroundColor:C.or,borderWidth:0,borderRadius:4,barPercentage:.7,categoryPercentage:.7}
+      {label:'Apurado',data:top8.map(r=>r.t),backgroundColor:C.p1,borderWidth:0,borderRadius:4,barPercentage:.7,categoryPercentage:.7},
+      {label:'Faturado',data:top8.map(r=>r.f),backgroundColor:C.ok,borderWidth:0,borderRadius:4,barPercentage:.7,categoryPercentage:.7}
     ]
   },options:{...BASE,indexAxis:'y',plugins:{...BASE.plugins,legend:{...LGD,position:'top',align:'end'}},
     scales:{
