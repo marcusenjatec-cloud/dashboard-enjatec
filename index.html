@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard Executivo · Enjatec × RHI Magnesita</title>
 
-<!-- Favicon SVG inline — logo Enjatec (e estilizado em azul petróleo) -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='29' fill='%230F4C5C'/><path d='M16 32 C16 22 23 16 32 16 C41 16 48 22 48 32' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round'/><path d='M16 32 Q16 48 32 48 Q43 48 47 41' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round'/><line x1='17' y1='32' x2='46' y2='32' stroke='white' stroke-width='3.5' stroke-linecap='round'/></svg>">
+<!-- Favicon — logo Enjatec oficial -->
+<link rel="icon" type="image/svg+xml" href="enjatec-logo.svg">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -105,7 +105,7 @@ body{
   box-shadow:0 1px 3px rgba(0,0,0,.15),0 4px 16px rgba(0,0,0,.1);
 }
 .brand{display:flex;align-items:center;gap:18px;}
-.logo-svg{height:34px;filter:brightness(0) invert(1);}
+.logo-svg{height:38px;width:auto;display:block;}
 .vsep{width:1px;height:30px;background:rgba(255,255,255,.16);}
 .brand-meta{}
 .brand-name{
@@ -500,14 +500,7 @@ tr:last-child td{border-bottom:none;}
 <!-- ══ HEADER ══ -->
 <div class="header">
   <div class="brand">
-    <svg class="logo-svg" viewBox="0 0 220 52" xmlns="http://www.w3.org/2000/svg" fill="white">
-      <circle cx="26" cy="26" r="23" fill="none" stroke="white" stroke-width="2.5"/>
-      <path d="M14 26 C14 18 20 13 26 13 C32 13 38 18 38 26" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M14 26 Q14 40 26 40 Q34 40 37 34" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="14" y1="26" x2="36" y2="26" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-      <text x="58" y="20" font-family="'Montserrat','Inter',sans-serif" font-weight="700" font-size="20" letter-spacing="1" fill="white">ENJATEC</text>
-      <text x="59" y="35" font-family="'DM Sans',sans-serif" font-size="9" letter-spacing="2.5" fill="rgba(255,255,255,0.45)">SERVIÇOS E FABRICAÇÕES</text>
-    </svg>
+    <img class="logo-svg" src="enjatec-logo.svg" alt="Enjatec — Serviços e Fabricações">
     <div class="vsep"></div>
     <div class="brand-meta">
       <div class="brand-name">× RHI Magnesita</div>
